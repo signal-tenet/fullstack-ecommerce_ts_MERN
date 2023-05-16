@@ -50,22 +50,21 @@ const Navbar = (): JSX.Element => {
 
     return (
         <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-            <Flex h={16} alignItems="center" justifyContent="space-between">
+            <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 <IconButton
-                    size="md"
+                    size={'md'}
                     icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
                     display={{ md: 'none' }}
                     onClick={isOpen ? onClose : onOpen}
-                    aria-label="menu"
-                />
+                    aria-label="menu"/>
                 <HStack>
-                    <Link as={ReactLink} to="/">
-                        <Flex alignItems="center">
-                            <Icon as={GiGalaxy} h={6} w={6} color="teal.500" />
-                            <Text fontWeight="extrabold">Galaxy of Gadgets</Text>
+                    <Link as={ReactLink} to={'/'}>
+                        <Flex alignItems={'center'}>
+                            <Icon mr={2} as={GiGalaxy} h={6} w={6} color={'teal.500'} />
+                            <Text fontWeight={'extrabold'}>Galaxy of Gadgets</Text>
                         </Flex>
                     </Link>
-                    <HStack>
+                    <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
                         {links.map((link) => (
                             <NavLink key={link.linkName} path={link.path}>
                                 {link.linkName}
@@ -73,14 +72,56 @@ const Navbar = (): JSX.Element => {
                         ))}
                     </HStack>
                 </HStack>
-                <Flex>
-                    <NavLink path="/">
-                        <Button alignSelf="center" onClick={() => toggleColorMode()}>
+                <Flex alignItems={'center'}>
+                    <NavLink path="#">
+                        <Button alignSelf={'center'} onClick={() => toggleColorMode()}>
                             <Icon as={colorMode === 'light' ? MoonIcon : SunIcon} />
                         </Button>
                     </NavLink>
+                    <Button
+                        as={ReactLink}
+                        to={'/login'}
+                        fontSize={'sm'}
+                        fontWeight={400}
+                        variant={'link'}
+                        display={{ base: 'none', md: 'inline-flex' }}
+                        bg={'green.500'}
+                        m={2}
+                        p={2}
+                    >
+                        Sign In
+                    </Button>
+                    <Button
+                        as={ReactLink}
+                        to={'/registration'}
+                        fontSize={'sm'}
+                        fontWeight={400}
+                        variant={'link'}
+                        display={{ base: 'none', md: 'inline-flex' }}
+                        m={2}
+                        p={2}
+                        _hover={{ bg: 'green.400' }}
+                        bg={'green.500'}
+                    >
+                        Sign Up
+                    </Button>
                 </Flex>
             </Flex>
+            {isOpen ? (
+                <Box pb={4} display={{ md: 'none' }}>
+                    <Stack as={'nav'} spacing={4}>
+                        {links.map((link) => (
+                            <NavLink path={link.path}>{link.linkName}</NavLink>
+                        ))}
+                        <NavLink key={'sign in'} path={'/login'}>
+                            Sign In
+                        </NavLink>
+                        <NavLink key={'sign up'} path={'/registration'}>
+                            Sign Up
+                        </NavLink>
+                    </Stack>
+                </Box>
+            ) : null}
         </Box>
     );
 };
