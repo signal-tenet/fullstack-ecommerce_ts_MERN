@@ -1,13 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from 'pages/Home'
+import * as React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Navbar from "./Navbar";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+      <ChakraProvider>
+          <Router>
+            <Navbar/>
+              <main></main>
+          </Router>
+      </ChakraProvider>
   )
 }
 export default App

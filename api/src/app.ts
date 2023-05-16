@@ -9,6 +9,8 @@ import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 import movieRouter from './routers/movie.router'
 
+import { rateLimit } from 'express-rate-limit'
+
 dotenv.config({ path: '.env' })
 const app = express()
 
