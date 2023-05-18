@@ -7,7 +7,7 @@ import cors from 'cors'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
-import movieRouter from './routers/movie.router'
+import productRoutes from './routers/productRoutes'
 
 import { rateLimit } from 'express-rate-limit'
 
@@ -44,7 +44,7 @@ app.use(passport.session())
 */
 
 // Set up routers
-app.use('/api/v1/movies', movieRouter)
+app.use('/api/products', productRoutes)
 
 // Custom API error handler
 app.use(apiErrorHandler)
