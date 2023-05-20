@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Icon,
   Flex,
@@ -10,25 +11,46 @@ import {
   Link,
   Button,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { MdShoppingCart } from 'react-icons/md';
 import { Link as ReactLink } from 'react-router-dom';
 import Rating from './Rating';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from '@reduxjs/toolkit';
+import { addCartItem } from '../redux/actions/cartActions';
+import { RootState } from '../redux/store';
+import { Product } from '../types/Product';
 
 interface ProductCardProps {
-  product: {
-    _id: string;
-    name: string;
-    image: string;
-    stock: number;
-    isNewProd: boolean;
-    rating: number;
-    reviewed: number;
-    price: number;
-  };
+  product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
+  const toast = useToast();
+  const cartInfo = useSelector((state: RootState) => state.cart);
+  const { cart } = cartInfo;
+
+  const addItem = (id: number) => {
+    if (cart.some((cartItem) => cartItem.id === id)) {
+      toast({
+        description:
+          'The product is already in your cart. You can change the amount from your cart.',
+        status: 'error',
+        isClosable: true,
+      });
+    } else {
+      dispatch(addCartItem(id, 1));
+      toast({
+        description: 'Product has been added.',
+        status: 'success',
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Stack
       p={'2'}
@@ -100,7 +122,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {product.price.toFixed(2)}
         </Box>
         <Tooltip
-          label='Add to cart'
+          label={
+            product.stock === 0 ? 'Sorry, this item is sold.' : 'Add to cart'
+          }
           bg={'white'}
           placement='top'
           color={'gray.800'}
@@ -109,7 +133,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button
             variant={'ghost'}
             display={'flex'}
-            disabled={product.stock === 0}
+            isDisabled={product.stock === 0}
+            onClick={() => addItem(product._id)}
           >
             <Icon as={MdShoppingCart} alignSelf={'center'} h={'8'} w={'8'} />
           </Button>

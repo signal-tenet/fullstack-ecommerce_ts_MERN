@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-interface Review extends Document {
+export interface Review extends Document {
   name: string;
   rating: number;
   comment: string;
