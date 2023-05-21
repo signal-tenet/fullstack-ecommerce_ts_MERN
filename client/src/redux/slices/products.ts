@@ -5,12 +5,14 @@ interface InitialState {
   loading: boolean;
   error: string | null;
   products: Product[];
+  product: null;
 }
 
 export const initialState: InitialState = {
   loading: false,
   error: null,
   products: [],
+  product: null,
 };
 
 const productsSlice = createSlice({
@@ -25,6 +27,11 @@ const productsSlice = createSlice({
       state.error = null;
       state.products = action.payload;
     },
+    setProduct: (state, { payload }) => {
+      state.product = payload;
+      state.loading = false;
+      state.error = null;
+    },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
@@ -32,7 +39,8 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, setProducts } = productsSlice.actions;
+export const { setLoading, setError, setProduct, setProducts } =
+  productsSlice.actions;
 export default productsSlice.reducer;
 
 export const productsSelector = (state: { products: InitialState }) =>

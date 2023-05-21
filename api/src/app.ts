@@ -23,6 +23,12 @@ app.use(
     origin: '*',
   })
 )
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method)
+  next()
+})
+
 app.use(apiContentType)
 app.use(express.json())
 /** using passport also requires to ass session and cookieParser middlewares to express
