@@ -9,6 +9,7 @@ import Footer from './Footer';
 import LandingPage from '../pages/LandingPage';
 import LoginPage from 'pages/LoginPage';
 import RegisterPage from 'pages/RegisterPage';
+import ProfilePage from 'pages/ProfilePage';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path='/cart' element={<CartPage />}></Route>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/registration' element={<RegisterPage />} />
+            <Route path='/profile' element={<ProfilePage />} />
           </Routes>
         </main>
         <Footer />

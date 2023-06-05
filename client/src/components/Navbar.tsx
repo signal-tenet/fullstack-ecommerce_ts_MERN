@@ -28,6 +28,7 @@ import {
   ChevronDownIcon,
 } from '@chakra-ui/icons';
 import { GiGalaxy } from 'react-icons/gi';
+import { FiShoppingCart } from 'react-icons/fi';
 import { CgProfile } from 'react-icons/cg';
 import { MdLocalShipping, MdLogout } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,9 +37,23 @@ import { RootState } from 'redux/store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from '@reduxjs/toolkit';
 
+const ShoppingCartIcon = () => {
+  const cartInfo = useSelector((state: RootState) => state.cart);
+  const { cart } = cartInfo;
+  return (
+      <Flex>
+        Cart
+        <Icon mr={'-1'} as={FiShoppingCart} h='4' w='7' alignSelf='center' />
+        <Text as='sub' fontSize='xs'>
+          {cart.length}
+        </Text>
+      </Flex>
+  );
+};
+
 const links = [
   { linkName: 'Products', path: '/products' },
-  { linkName: 'Shopping Cart', path: '/cart' },
+  { linkName: <ShoppingCartIcon />, path: '/cart' },
 ];
 
 interface NavLinkProps {
@@ -98,7 +113,7 @@ const Navbar = (): JSX.Element => {
           </Link>
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {links.map((link) => (
-              <NavLink key={link.linkName} path={link.path}>
+              <NavLink key={link.path} path={link.path}>
                 {link.linkName}
               </NavLink>
             ))}

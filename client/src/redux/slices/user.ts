@@ -3,10 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface UserState {
   loading: boolean;
   error: string | null;
+  updateSuccess: boolean;
   userInfo: {
+    _id: string;
     name: string;
     email: string;
     password: string;
+    createdAt: Date;
     isAdmin: boolean;
     matchPasswords(enteredPassword: string): Promise<boolean>;
   } | null;
@@ -21,6 +24,7 @@ const initialState: UserState = {
   loading: false,
   error: null,
   userInfo: parsedUserInfo,
+  updateSuccess: false,
 };
 
 const userSlice = createSlice({
@@ -40,6 +44,15 @@ const userSlice = createSlice({
       state.error = null;
       state.userInfo = null;
     },
+    updateUserProfile: (state, { payload }) => {
+      state.userInfo = payload;
+      state.updateSuccess = true;
+      state.loading = false;
+      state.error = null;
+    },
+    resetUpdate: (state) => {
+      state.updateSuccess = false;
+    },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
@@ -47,7 +60,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, userLogin, userLogout } =
+export const { setLoading, setError, userLogin, userLogout, updateUserProfile, resetUpdate } =
   userSlice.actions;
 export default userSlice.reducer;
 
