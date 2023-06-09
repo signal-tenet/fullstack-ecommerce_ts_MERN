@@ -11,6 +11,7 @@ interface UserState {
     password: string;
     createdAt: Date;
     isAdmin: boolean;
+    token: string;
     matchPasswords(enteredPassword: string): Promise<boolean>;
   } | null;
 }
@@ -60,8 +61,14 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, userLogin, userLogout, updateUserProfile, resetUpdate } =
-  userSlice.actions;
+export const {
+  setLoading,
+  setError,
+  userLogin,
+  userLogout,
+  updateUserProfile,
+  resetUpdate,
+} = userSlice.actions;
 export default userSlice.reducer;
 
 export const userSelector = (state: { user: UserState }) => state.user;

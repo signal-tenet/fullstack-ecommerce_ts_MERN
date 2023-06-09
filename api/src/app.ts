@@ -9,6 +9,7 @@ import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 import productRoutes from './routers/productRoutes'
 import userRoutes from './routers/userRoutes'
+import orderRoutes from './routers/orderRoutes'
 
 import { rateLimit } from 'express-rate-limit'
 
@@ -53,6 +54,7 @@ app.use(passport.session())
 // Set up routers
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
 
 // Custom API error handler
 app.use(apiErrorHandler)
