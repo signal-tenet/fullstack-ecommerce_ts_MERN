@@ -11,8 +11,7 @@ import {
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UsersTab from '../components/UsersTab';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from '@reduxjs/toolkit';
+import OrdersTab from '../components/OrdersTab';
 import { RootState } from '../redux/store';
 
 const AdminPage = () => {
@@ -38,13 +37,14 @@ const AdminPage = () => {
           <Tabs size='md' variant='enclosed'>
             <TabList>
               <Tab>Users</Tab>
-              <Tab>Products</Tab>
-              <Tab>Reviews</Tab>
               <Tab>Orders</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
                 <UsersTab />
+              </TabPanel>
+              <TabPanel>
+                <OrdersTab />
               </TabPanel>
             </TabPanels>
           </Tabs>

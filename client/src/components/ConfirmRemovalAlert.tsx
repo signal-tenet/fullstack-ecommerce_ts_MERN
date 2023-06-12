@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 interface ConfirmRemovalAlertProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpen: () => void;
   cancelRef: React.RefObject<HTMLButtonElement>;
   itemToDelete: { _id: string; name: string };
   deleteAction: (id: string) => any;

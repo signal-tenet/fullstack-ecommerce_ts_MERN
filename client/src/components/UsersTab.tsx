@@ -67,7 +67,7 @@ const UsersTab: React.FC = () => {
       {error && (
         <Alert status='error'>
           <AlertIcon />
-          <AlertTitle>Upps!</AlertTitle>
+          <AlertTitle>We're sorry!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -130,6 +130,7 @@ const UsersTab: React.FC = () => {
           </TableContainer>
           <ConfirmRemovalAlert
             isOpen={isOpen}
+            onOpen={onOpen}
             onClose={onClose}
             cancelRef={cancelRef}
             itemToDelete={{ _id: userToDelete, name: '' }}

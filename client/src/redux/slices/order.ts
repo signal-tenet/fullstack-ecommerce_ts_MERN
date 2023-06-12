@@ -18,7 +18,7 @@ export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    setLoading: (state) => {
+    setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = true;
     },
     setError: (state, action: PayloadAction<boolean>) => {
