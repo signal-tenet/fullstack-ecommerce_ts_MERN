@@ -55,7 +55,7 @@ const OrderSuccessPage = () => {
             colorScheme='teal'
             variant='outline'
             as={ReactLink}
-            to='/your-orders'
+            to='/my-orders'
           >
             Your Order
           </Button>

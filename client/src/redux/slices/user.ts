@@ -4,6 +4,7 @@ interface UserState {
   loading: boolean;
   error: string | null;
   updateSuccess: boolean;
+  orders: any[];
   userInfo: {
     _id: string;
     name: string;
@@ -26,6 +27,7 @@ const initialState: UserState = {
   error: null,
   userInfo: parsedUserInfo,
   updateSuccess: false,
+  orders: [],
 };
 
 const userSlice = createSlice({
@@ -54,6 +56,11 @@ const userSlice = createSlice({
     resetUpdate: (state) => {
       state.updateSuccess = false;
     },
+    setUserOrders: (state, { payload }) => {
+      state.error = null;
+      state.orders = payload;
+      state.loading = false;
+    },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
@@ -68,6 +75,7 @@ export const {
   userLogout,
   updateUserProfile,
   resetUpdate,
+  setUserOrders,
 } = userSlice.actions;
 export default userSlice.reducer;
 

@@ -41,13 +41,13 @@ const ShoppingCartIcon = () => {
   const cartInfo = useSelector((state: RootState) => state.cart);
   const { cart } = cartInfo;
   return (
-      <Flex>
-        Cart
-        <Icon mr={'-1'} as={FiShoppingCart} h='4' w='7' alignSelf='center' />
-        <Text as='sub' fontSize='xs'>
-          {cart.length}
-        </Text>
-      </Flex>
+    <Flex>
+      Cart
+      <Icon mr={'-1'} as={FiShoppingCart} h='4' w='7' alignSelf='center' />
+      <Text as='sub' fontSize='xs'>
+        {cart.length}
+      </Text>
+    </Flex>
   );
 };
 
@@ -136,9 +136,9 @@ const Navbar = (): JSX.Element => {
                   <CgProfile />
                   <Text ml='2'>Profile</Text>
                 </MenuItem>
-                <MenuItem as={ReactLink} to='/your-orders'>
+                <MenuItem as={ReactLink} to='/my-orders'>
                   <MdLocalShipping />
-                  <Text ml='2'>Your Orders</Text>
+                  <Text ml='2'>My Orders</Text>
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={logoutHandler}>

@@ -6,6 +6,7 @@ interface InitialState {
   error: string | null;
   products: Product[];
   product: null;
+  reviewSend: boolean;
 }
 
 export const initialState: InitialState = {
@@ -13,6 +14,7 @@ export const initialState: InitialState = {
   error: null,
   products: [],
   product: null,
+  reviewSend: false,
 };
 
 const productsSlice = createSlice({
@@ -32,6 +34,15 @@ const productsSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    productReviewed: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.reviewSend = true;
+    },
+    resetError: (state) => {
+      state.error = null;
+      state.reviewSend = false;
+    },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
@@ -39,8 +50,14 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, setProduct, setProducts } =
-  productsSlice.actions;
+export const {
+  setLoading,
+  setError,
+  setProduct,
+  setProducts,
+  productReviewed,
+  resetError,
+} = productsSlice.actions;
 export default productsSlice.reducer;
 
 export const productsSelector = (state: { products: InitialState }) =>

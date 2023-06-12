@@ -12,6 +12,7 @@ import RegisterPage from 'pages/RegisterPage';
 import ProfilePage from 'pages/ProfilePage';
 import CheckoutPage from 'pages/CheckoutPage';
 import OrderSuccessPage from 'pages/OrderSuccessPage';
+import UserOrdersPage from 'pages/UserOrdersPage';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path='/profile' element={<ProfilePage />} />
             <Route path='/checkout' element={<CheckoutPage />} />
             <Route path='/order-success' element={<OrderSuccessPage />} />
+            <Route path='/my-orders' element={<UserOrdersPage />} />
           </Routes>
         </main>
         <Footer />

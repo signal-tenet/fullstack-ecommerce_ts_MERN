@@ -1,18 +1,20 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Dispatch } from 'redux';
-import { AppThunk } from '../store';
+import { AppThunk, RootState } from '../store';
 import {
   setProducts,
   setProduct,
   setLoading,
   setError,
+  productReviewed,
+  resetError,
 } from '../slices/products';
 import { Product } from '../../types/Product';
 
-export const getProducts = (): any => async (dispatch: Dispatch) => {
+export const getProducts = (): AppThunk => async (dispatch: Dispatch) => {
   dispatch(setLoading(true));
   try {
-    const { data } = await axios.get<Product[]>(
+    const { data }: AxiosResponse<Product[]> = await axios.get<Product[]>(
       'http://localhost:4000/api/products'
     );
     dispatch(setProducts(data));
@@ -36,7 +38,7 @@ export const getProduct =
   async (dispatch: Dispatch) => {
     dispatch(setLoading(true));
     try {
-      const { data } = await axios.get(
+      const { data }: AxiosResponse<Product> = await axios.get<Product>(
         `http://localhost:4000/api/products/${id}`
       );
       dispatch(setProduct(data));
@@ -52,3 +54,48 @@ export const getProduct =
       );
     }
   };
+
+export const createProductReview =
+  (
+    productId: string,
+    userId: string,
+    comment: string,
+    rating: number,
+    title: string
+  ): AppThunk<Promise<void>> =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
+    dispatch(setLoading(true));
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data }: AxiosResponse = await axios.post(
+        `http://localhost:4000/api/products/reviews/${productId}`,
+        { comment, userId, rating, title },
+        config
+      );
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      dispatch(productReviewed());
+    } catch (error: any) {
+      dispatch(
+        setError(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+            ? error.message
+            : 'An unexpected error has occurred. Please try again later.'
+        )
+      );
+    }
+  };
+
+export const resetProductError = (): AppThunk => async (dispatch: Dispatch) => {
+  dispatch(resetError());
+};

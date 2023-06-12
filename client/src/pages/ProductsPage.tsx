@@ -12,10 +12,13 @@ import ProductCard from '../components/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/actions/productActions';
 import { useEffect } from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from '@reduxjs/toolkit';
+
 import { RootState } from 'redux/store';
 
 export const ProductsPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
   const productList = useSelector((state: RootState) => state.products);
   const { loading, error, products } = productList;
 

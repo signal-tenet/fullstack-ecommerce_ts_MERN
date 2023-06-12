@@ -13,6 +13,9 @@ import {
   AlertDescription,
   AlertTitle,
   Flex,
+  Tooltip,
+  Textarea,
+  Input,
   Badge,
   Heading,
   HStack,
@@ -26,7 +29,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'redux/store';
-import { getProduct } from '../redux/actions/productActions';
+import {
+  getProduct,
+  createProductReview,
+  resetProductError,
+} from '../redux/actions/productActions';
 import { addCartItem } from '../redux/actions/cartActions';
 
 interface Review {
@@ -40,6 +47,11 @@ interface Review {
 }
 
 const ProductPage: React.FC = () => {
+  const [comment, setComment] = useState<string>('');
+  const [rating, setRating] = useState<number>(1);
+  const [title, setTitle] = useState<string>('');
+  const [reviewBoxOpen, setReviewBoxOpen] = useState<boolean>(false);
+
   const [amount, setAmount] = useState<number>(1);
   const { id } = useParams();
   const toast = useToast();
@@ -47,14 +59,26 @@ const ProductPage: React.FC = () => {
   // Redux
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
   const products = useSelector((state: RootState) => state.products);
-  const { loading, error, product } = products as any; //Type....
+  const { loading, error, product, reviewSend } = products as any; //Type....
 
   const cartContent = useSelector((state: RootState) => state.cart);
   const { cart } = cartContent;
 
+  const user = useSelector((state: RootState) => state.user);
+  const { userInfo } = user;
+
   useEffect(() => {
     dispatch(getProduct(id as string));
-  }, [dispatch, id, cart]);
+    if (reviewSend) {
+      toast({
+        description: 'Product review saved.',
+        status: 'success',
+        isClosable: true,
+      });
+      dispatch(resetProductError());
+      setReviewBoxOpen(false);
+    }
+  }, [dispatch, id, cart, reviewSend]);
 
   const changeAmount = (input: string) => {
     if (input === 'plus') {
@@ -62,6 +86,17 @@ const ProductPage: React.FC = () => {
     }
     if (input === 'minus') {
       setAmount(amount - 1);
+    }
+  };
+
+  const hasUserReviewed = () =>
+    product.reviews.some((item: any) => item.user === userInfo?._id);
+
+  const onSubmit = () => {
+    if (userInfo) {
+      dispatch(
+        createProductReview(product._id, userInfo._id, comment, rating, title)
+      );
     }
   };
 
@@ -229,6 +264,78 @@ const ProductPage: React.FC = () => {
                 <Image mb='30px' src={product.image} alt={product.name} />
               </Flex>
             </Stack>
+            {userInfo && (
+              <>
+                <Tooltip
+                  label={
+                    hasUserReviewed()
+                      ? 'You have already reviewed this product.'
+                      : ''
+                  }
+                  fontSize='md'
+                >
+                  <Button
+                    disabled={hasUserReviewed()}
+                    my='20px'
+                    w='140px'
+                    colorScheme='orange'
+                    onClick={() => setReviewBoxOpen(!reviewBoxOpen)}
+                  >
+                    Write a review
+                  </Button>
+                </Tooltip>
+                {reviewBoxOpen && (
+                  <Stack mb='20px'>
+                    <Wrap>
+                      <HStack spacing='2px'>
+                        <Button variant='outline' onClick={() => setRating(1)}>
+                          <StarIcon color='orange.500' />
+                        </Button>
+                        <Button variant='outline' onClick={() => setRating(2)}>
+                          <StarIcon
+                            color={rating >= 2 ? 'orange.500' : 'gray.200'}
+                          />
+                        </Button>
+                        <Button variant='outline' onClick={() => setRating(3)}>
+                          <StarIcon
+                            color={rating >= 3 ? 'orange.500' : 'gray.200'}
+                          />
+                        </Button>
+                        <Button variant='outline' onClick={() => setRating(4)}>
+                          <StarIcon
+                            color={rating >= 4 ? 'orange.500' : 'gray.200'}
+                          />
+                        </Button>
+                        <Button variant='outline' onClick={() => setRating(5)}>
+                          <StarIcon
+                            color={rating >= 5 ? 'orange.500' : 'gray.200'}
+                          />
+                        </Button>
+                      </HStack>
+                    </Wrap>
+                    <Input
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                      }}
+                      placeholder='Review title (optional)'
+                    />
+                    <Textarea
+                      onChange={(e) => {
+                        setComment(e.target.value);
+                      }}
+                      placeholder={`The ${product.name} is...`}
+                    />
+                    <Button
+                      w='140px'
+                      colorScheme='orange'
+                      onClick={() => onSubmit()}
+                    >
+                      Publish review
+                    </Button>
+                  </Stack>
+                )}
+              </>
+            )}
             <Stack>
               <Text fontSize='xl' fontWeight='bold'>
                 Reviews
