@@ -30,7 +30,11 @@ import {
 import { GiGalaxy } from 'react-icons/gi';
 import { FiShoppingCart } from 'react-icons/fi';
 import { CgProfile } from 'react-icons/cg';
-import { MdLocalShipping, MdLogout } from 'react-icons/md';
+import {
+  MdLocalShipping,
+  MdLogout,
+  MdOutlineAdminPanelSettings,
+} from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
 import { RootState } from 'redux/store';
@@ -140,6 +144,15 @@ const Navbar = (): JSX.Element => {
                   <MdLocalShipping />
                   <Text ml='2'>My Orders</Text>
                 </MenuItem>
+                {userInfo.isAdmin === true && (
+                  <>
+                    <MenuDivider />
+                    <MenuItem as={ReactLink} to={'/admin-page'}>
+                      <MdOutlineAdminPanelSettings />
+                      <Text ml='2'>Admin Panel</Text>
+                    </MenuItem>
+                  </>
+                )}
                 <MenuDivider />
                 <MenuItem onClick={logoutHandler}>
                   <MdLogout />

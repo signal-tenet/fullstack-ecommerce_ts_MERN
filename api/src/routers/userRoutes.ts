@@ -3,7 +3,7 @@ import IUser, { User } from '../models/User'
 import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../util/secrets'
-import protectRoute from '../middlewares/authMiddleware'
+import protectRoute, { admin } from '../middlewares/authMiddleware'
 import Order from '../models/Order'
 
 const userRoutes = express.Router()
@@ -96,9 +96,26 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await IUser.find({})
+  res.json(users)
+})
+
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await IUser.findByIdAndRemove(req.params.id)
+    res.json(user)
+  } catch (error) {
+    res.status(404)
+    throw new Error('This user could not be found.')
+  }
+})
+
 userRoutes.route('/login').post(loginUser)
 userRoutes.route('/register').post(registerUser)
 userRoutes.route('/profile/:id').put(protectRoute, updateUserProfile)
 userRoutes.route('/:id').get(protectRoute, getUserOrders)
+userRoutes.route('/').get(protectRoute, admin, getUsers)
+userRoutes.route('/:id').delete(protectRoute, admin, deleteUser)
 
 export default userRoutes
