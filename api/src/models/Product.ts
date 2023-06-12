@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
-interface TReview extends Document {
+export interface TReview extends Document {
   name: string
   rating: number
   comment: string

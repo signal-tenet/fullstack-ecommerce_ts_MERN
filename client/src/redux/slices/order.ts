@@ -7,14 +7,14 @@ interface OrderState {
   orderInfo: any;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   loading: false,
   error: true,
   shippingAddress: null,
   orderInfo: null,
 };
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
@@ -29,15 +29,14 @@ const orderSlice = createSlice({
       state.shippingAddress = action.payload;
       state.loading = false;
     },
-    clearOrder: () => {
-      return initialState;
+    clearOrder: (state) => {
+      return { ...initialState };
     },
   },
 });
 
 export const { setLoading, setError, shippingAddressAdd, clearOrder } =
   orderSlice.actions;
-
 export default orderSlice.reducer;
 
-export const orderSelector = (state: any) => state.order;
+export const orderSelector = (state: { order: OrderState }) => state.order;

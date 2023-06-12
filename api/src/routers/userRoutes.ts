@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../util/secrets'
 import protectRoute from '../middlewares/authMiddleware'
+import Order from '../models/Order'
 
 const userRoutes = express.Router()
 
@@ -59,6 +60,16 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   }
 })
 
+const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.params.id })
+  if (orders) {
+    res.json(orders)
+  } else {
+    res.status(404)
+    throw new Error('No Orders found')
+  }
+})
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await IUser.findById(req.params.id)
 
@@ -88,5 +99,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 userRoutes.route('/login').post(loginUser)
 userRoutes.route('/register').post(registerUser)
 userRoutes.route('/profile/:id').put(protectRoute, updateUserProfile)
+userRoutes.route('/:id').get(protectRoute, getUserOrders)
 
 export default userRoutes

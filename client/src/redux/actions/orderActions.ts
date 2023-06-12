@@ -28,7 +28,7 @@ export const createOrder =
         },
       };
       const { data }: AxiosResponse = await axios.post(
-        'api/orders',
+        'http://localhost:4000/api/orders',
         preparedOrder,
         config
       );
