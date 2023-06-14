@@ -5,7 +5,6 @@
   "repository": {
     "type": "git"
   },
-  "author": "Bowden Kelly",
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/server.ts",
