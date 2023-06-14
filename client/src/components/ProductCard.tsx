@@ -119,7 +119,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Box as='span' mr={'3px'}>
             $
           </Box>
-          {product.price.toFixed(2)}
+          {Number(product.price).toFixed(2)}
         </Box>
         <Tooltip
           label={

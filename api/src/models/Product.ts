@@ -42,7 +42,7 @@ const productSchema: Schema<TProduct> = new Schema(
     description: { type: String, required: true },
     reviews: [reviewSchema],
     rating: { type: Number, required: true, default: 0 },
-    reviewed: { type: Number, required: true },
+    reviewed: { type: Number, required: true, default: 0 },
     price: { type: Number, required: true, default: 1000 },
     stock: { type: Number, required: true, default: 0 },
     isNewProd: { type: Boolean, default: true },

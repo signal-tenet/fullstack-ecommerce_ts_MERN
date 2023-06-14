@@ -12,6 +12,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UsersTab from '../components/UsersTab';
 import OrdersTab from '../components/OrdersTab';
+import ProductsTab from '../components/ProductsTab';
 import { RootState } from '../redux/store';
 
 const AdminPage = () => {
@@ -38,6 +39,7 @@ const AdminPage = () => {
             <TabList>
               <Tab>Users</Tab>
               <Tab>Orders</Tab>
+              <Tab>Products</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -45,6 +47,9 @@ const AdminPage = () => {
               </TabPanel>
               <TabPanel>
                 <OrdersTab />
+              </TabPanel>
+              <TabPanel>
+                <ProductsTab />
               </TabPanel>
             </TabPanels>
           </Tabs>

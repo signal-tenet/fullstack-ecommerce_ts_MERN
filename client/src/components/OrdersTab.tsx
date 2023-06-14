@@ -133,8 +133,13 @@ const OrdersTab: React.FC = () => {
                       </Td>
                       <Td>
                         {order.orderItems.map(
-                          (item: { id: string; qty: number; name: string }) => (
-                            <Text key={item.id}>
+                          (item: {
+                            id: string;
+                            _id: string;
+                            qty: number;
+                            name: string;
+                          }) => (
+                            <Text key={item._id}>
                               {item.qty} x {item.name}
                             </Text>
                           )

@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { AppThunk } from '../store';
 import { Dispatch } from 'redux';
 import {
@@ -11,6 +11,7 @@ import {
   setDeliveredFlag,
   getOrders,
 } from '../slices/admin';
+import { setProducts, setProductUpdateFlag } from '../slices/products';
 
 export const getAllUsers = (): AppThunk => async (dispatch, getState) => {
   const {
@@ -24,7 +25,10 @@ export const getAllUsers = (): AppThunk => async (dispatch, getState) => {
         'Content-Type': 'application/json',
       },
     };
-    const { data } = await axios.get('http://localhost:4000/api/users', config);
+    const { data }: AxiosResponse = await axios.get(
+      'http://localhost:4000/api/users',
+      config
+    );
     dispatch(getUsers(data));
   } catch (error: unknown) {
     const errorMessage = getErrorMessage(error);
@@ -84,7 +88,7 @@ export const getAllOrders =
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.get(
+      const { data }: AxiosResponse = await axios.get(
         'http://localhost:4000/api/orders',
         config
       );
@@ -114,10 +118,7 @@ export const deleteOrder =
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.delete(
-        `http://localhost:4000/api/orders/${id}`,
-        config
-      );
+      await axios.delete(`http://localhost:4000/api/orders/${id}`, config);
       dispatch(orderDelete());
     } catch (error: unknown) {
       dispatch(
@@ -153,6 +154,125 @@ export const setDelivered =
           (error as AxiosError<any>)?.response?.data?.message ||
             (error as Error)?.message ||
             'Order could not be updated.'
+        )
+      );
+    }
+  };
+
+// Update Product
+export const updateProduct =
+  (
+    brand: string,
+    name: string,
+    category: string,
+    stock: number,
+    price: number,
+    id: string,
+    productIsNew: boolean,
+    description: string,
+    image: string
+  ): AppThunk =>
+  async (dispatch, getState) => {
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data }: AxiosResponse = await axios.put(
+        `http://localhost:4000/api/products`,
+        {
+          brand,
+          name,
+          category,
+          stock,
+          price,
+          id,
+          productIsNew,
+          description,
+          image,
+        },
+        config
+      );
+      dispatch(setProducts(data));
+      dispatch(setProductUpdateFlag());
+    } catch (error) {
+      dispatch(
+        setError(
+          (error as AxiosError<any>)?.response?.data?.message ||
+            (error as Error)?.message ||
+            'Product could not be updated.'
+        )
+      );
+    }
+  };
+
+// Delete Product
+export const deleteProduct =
+  (id: string): AppThunk =>
+  async (dispatch, getState) => {
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data }: AxiosResponse = await axios.delete(
+        `http://localhost:4000/api/products/${id}`,
+        config
+      );
+      dispatch(setProducts(data));
+      dispatch(setProductUpdateFlag());
+      dispatch(resetError());
+    } catch (error) {
+      dispatch(
+        setError(
+          (error as AxiosError<any>)?.response?.data?.message ||
+            (error as Error)?.message ||
+            'Product could not be removed.'
+        )
+      );
+    }
+  };
+
+// Upload Product
+export const uploadProduct =
+  (newProduct: any): AppThunk =>
+  async (dispatch, getState) => {
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data }: AxiosResponse = await axios.post(
+        `http://localhost:4000/api/products`,
+        newProduct,
+        config
+      );
+      dispatch(setProducts(data));
+      dispatch(setProductUpdateFlag());
+    } catch (error) {
+      dispatch(
+        setError(
+          (error as AxiosError<any>)?.response?.data?.message ||
+            (error as Error)?.message ||
+            'Product could not be uploaded.'
         )
       );
     }
