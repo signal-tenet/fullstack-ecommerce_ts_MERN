@@ -8,6 +8,7 @@ interface InitialState {
   product: null;
   reviewSend: boolean;
   productUpdate: boolean;
+  reviewRemoval: boolean;
 }
 
 export const initialState: InitialState = {
@@ -17,6 +18,7 @@ export const initialState: InitialState = {
   product: null,
   reviewSend: false,
   productUpdate: false,
+  reviewRemoval: false,
 };
 
 const productsSlice = createSlice({
@@ -45,9 +47,15 @@ const productsSlice = createSlice({
       state.error = null;
       state.reviewSend = false;
       state.productUpdate = false;
+      state.reviewRemoval = false;
     },
     setProductUpdateFlag: (state) => {
       state.productUpdate = true;
+      state.loading = false;
+    },
+    setReviewRemovalFlag: (state) => {
+      state.error = null;
+      state.reviewRemoval = true;
       state.loading = false;
     },
     setError: (state, action: PayloadAction<string>) => {
@@ -65,6 +73,7 @@ export const {
   productReviewed,
   resetError,
   setProductUpdateFlag,
+  setReviewRemovalFlag,
 } = productsSlice.actions;
 export default productsSlice.reducer;
 

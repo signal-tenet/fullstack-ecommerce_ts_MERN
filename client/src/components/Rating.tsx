@@ -12,27 +12,63 @@ const Rating: React.FC<RatingProps> = ({ rating, reviews }) => {
   return (
     <Flex>
       <HStack spacing={'2px'}>
-        <MdStar size={iconSize} width={'14px'} color='orange' />
-        <MdStar
-          size={iconSize}
-          width={'14px'}
-          color={rating >= 2 ? 'orange' : 'gray'}
-        />
-        <MdStar
-          size={iconSize}
-          width={'14px'}
-          color={rating >= 3 ? 'orange' : 'gray'}
-        />
-        <MdStar
-          size={iconSize}
-          width={'14px'}
-          color={rating >= 4 ? 'orange' : 'gray'}
-        />
-        <MdStar
-          size={iconSize}
-          width={'14px'}
-          color={rating >= 5 ? 'orange' : 'gray'}
-        />
+        {rating === 0 ? (
+          <>
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating === 0 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating === 0 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating === 0 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating === 0 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating === 0 ? 'orange' : 'gray'}
+            />
+          </>
+        ) : (
+          <>
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating >= 1 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating >= 2 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating >= 3 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating >= 4 ? 'orange' : 'gray'}
+            />
+            <MdStar
+              size={iconSize}
+              width={'14px'}
+              color={rating >= 5 ? 'orange' : 'gray'}
+            />
+          </>
+        )}
       </HStack>
       <Text fontSize={'md'} fontWeight={'bold'} ml={'4px'}>
         {`${reviews} ${reviews === 1 ? 'Review' : 'Reviews'}`}

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import UsersTab from '../components/UsersTab';
 import OrdersTab from '../components/OrdersTab';
 import ProductsTab from '../components/ProductsTab';
+import ReviewsTab from '../components/ReviewsTab';
 import { RootState } from '../redux/store';
 
 const AdminPage = () => {
@@ -40,6 +41,7 @@ const AdminPage = () => {
               <Tab>Users</Tab>
               <Tab>Orders</Tab>
               <Tab>Products</Tab>
+              <Tab>Reviews</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -50,6 +52,9 @@ const AdminPage = () => {
               </TabPanel>
               <TabPanel>
                 <ProductsTab />
+              </TabPanel>
+              <TabPanel>
+                <ReviewsTab />
               </TabPanel>
             </TabPanels>
           </Tabs>

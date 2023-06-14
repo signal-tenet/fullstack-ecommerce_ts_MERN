@@ -6,6 +6,7 @@ export interface Review extends Document {
   comment: string;
   title: string;
   user: mongoose.Types.ObjectId;
+  createdAt: string;
 }
 
 export interface Product extends Document {

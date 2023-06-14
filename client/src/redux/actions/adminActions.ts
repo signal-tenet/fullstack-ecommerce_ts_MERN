@@ -11,7 +11,11 @@ import {
   setDeliveredFlag,
   getOrders,
 } from '../slices/admin';
-import { setProducts, setProductUpdateFlag } from '../slices/products';
+import {
+  setProducts,
+  setProductUpdateFlag,
+  setReviewRemovalFlag,
+} from '../slices/products';
 
 export const getAllUsers = (): AppThunk => async (dispatch, getState) => {
   const {
@@ -25,7 +29,7 @@ export const getAllUsers = (): AppThunk => async (dispatch, getState) => {
         'Content-Type': 'application/json',
       },
     };
-    const { data }: AxiosResponse = await axios.get(
+    const { data }: AxiosResponse<any> = await axios.get(
       'http://localhost:4000/api/users',
       config
     );
@@ -88,7 +92,7 @@ export const getAllOrders =
           'Content-Type': 'application/json',
         },
       };
-      const { data }: AxiosResponse = await axios.get(
+      const { data }: AxiosResponse<any> = await axios.get(
         'http://localhost:4000/api/orders',
         config
       );
@@ -168,7 +172,7 @@ export const updateProduct =
     stock: number,
     price: number,
     id: string,
-    productIsNew: boolean,
+    isNewProd: boolean,
     description: string,
     image: string
   ): AppThunk =>
@@ -184,7 +188,7 @@ export const updateProduct =
           'Content-Type': 'application/json',
         },
       };
-      const { data }: AxiosResponse = await axios.put(
+      const { data }: AxiosResponse<any> = await axios.put(
         `http://localhost:4000/api/products`,
         {
           brand,
@@ -193,7 +197,7 @@ export const updateProduct =
           stock,
           price,
           id,
-          productIsNew,
+          isNewProd,
           description,
           image,
         },
@@ -227,7 +231,7 @@ export const deleteProduct =
           'Content-Type': 'application/json',
         },
       };
-      const { data }: AxiosResponse = await axios.delete(
+      const { data }: AxiosResponse<any> = await axios.delete(
         `http://localhost:4000/api/products/${id}`,
         config
       );
@@ -260,7 +264,7 @@ export const uploadProduct =
           'Content-Type': 'application/json',
         },
       };
-      const { data }: AxiosResponse = await axios.post(
+      const { data }: AxiosResponse<any> = await axios.post(
         `http://localhost:4000/api/products`,
         newProduct,
         config
@@ -273,6 +277,38 @@ export const uploadProduct =
           (error as AxiosError<any>)?.response?.data?.message ||
             (error as Error)?.message ||
             'Product could not be uploaded.'
+        )
+      );
+    }
+  };
+
+export const removeReview =
+  (productId: string, reviewId: string): AppThunk =>
+  async (dispatch, getState) => {
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data }: AxiosResponse<any> = await axios.put(
+        `http://localhost:4000/api/products/${productId}/${reviewId}`,
+        {},
+        config
+      );
+      dispatch(setProducts(data));
+      dispatch(setReviewRemovalFlag());
+    } catch (error) {
+      dispatch(
+        setError(
+          (error as AxiosError<any>)?.response?.data?.message ||
+            (error as Error)?.message ||
+            'Review could not be removed.'
         )
       );
     }

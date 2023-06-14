@@ -161,11 +161,44 @@ const updateProduct = asyncHandler(
   }
 )
 
+const removeProductReview = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const product = await Product.findById(req.params.productId)
+
+    const updatedReviews = product?.reviews.filter(
+      (rev: TReview) => rev._id.valueOf() !== req.params.reviewId
+    )
+
+    if (product) {
+      product.reviews = updatedReviews || []
+
+      product.reviewed = product.reviews.length
+
+      if (product.reviewed > 0) {
+        product.rating =
+          product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+          product.reviews.length
+      } else {
+        product.rating = 1
+      }
+
+      await product.save()
+      res.status(201).json({ message: 'Review has been removed.' })
+    } else {
+      res.status(404)
+      throw new Error('Product not found.')
+    }
+  }
+)
+
 productRoutes.get('/', getProducts)
 productRoutes.get('/:id', getProduct)
 productRoutes.post('/reviews/:id', protectRoute, createProductReview)
 productRoutes.route('/').put(protectRoute, admin, updateProduct)
 productRoutes.route('/:id').delete(protectRoute, admin, deleteProduct)
 productRoutes.route('/').post(protectRoute, admin, createNewProduct)
+productRoutes
+  .route('/:productId/:reviewId')
+  .put(protectRoute, admin, removeProductReview)
 
 export default productRoutes

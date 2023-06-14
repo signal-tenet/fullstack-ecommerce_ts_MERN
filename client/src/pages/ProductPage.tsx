@@ -148,7 +148,7 @@ const ProductPage: React.FC = () => {
                 flex='1.5'
                 mb={{ base: '12', md: 'none' }}
               >
-                {product.productIsNew && (
+                {product.isNewProd && (
                   <Badge
                     rounded='full'
                     w='40px'

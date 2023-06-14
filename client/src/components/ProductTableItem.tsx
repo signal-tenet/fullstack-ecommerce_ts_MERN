@@ -37,7 +37,7 @@ const ProductTableItem = ({ product }: ProductTableItemProps): JSX.Element => {
   const [category, setCategory] = useState(product.category);
   const [stock, setStock] = useState(product.stock);
   const [price, setPrice] = useState(product.price);
-  const [productIsNew, setProductIsNew] = useState(product.isNewProd);
+  const [isNewProd, setIsNewProd] = useState(product.isNewProd);
   const [description, setDescription] = useState(product.description);
   const [image, setImage] = useState(product.image.substring(8));
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
@@ -51,7 +51,7 @@ const ProductTableItem = ({ product }: ProductTableItemProps): JSX.Element => {
         stock,
         price,
         product._id,
-        productIsNew,
+        isNewProd,
         description,
         image
       )
@@ -135,8 +135,8 @@ const ProductTableItem = ({ product }: ProductTableItemProps): JSX.Element => {
               </FormLabel>
               <Switch
                 id='productIsNewFlag'
-                onChange={() => setProductIsNew(!productIsNew)}
-                isChecked={productIsNew}
+                onChange={() => setIsNewProd(!isNewProd)}
+                isChecked={isNewProd}
               />
             </FormControl>
           </Flex>
