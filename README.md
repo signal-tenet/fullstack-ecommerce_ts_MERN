@@ -1,4 +1,4 @@
-# Fullstack project.
+# Fullstack project. Live demo: [click here](https://galaxy-int-fullstack.onrender.com/)
 
 ## Installation
 
