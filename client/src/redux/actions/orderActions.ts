@@ -28,7 +28,7 @@ export const createOrder =
         },
       };
       const { data }: AxiosResponse = await axios.post(
-        '/api/orders',
+        'https://galaxy-int-backend.onrender.com/api/orders',
         preparedOrder,
         config
       );

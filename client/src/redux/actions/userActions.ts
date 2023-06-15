@@ -23,7 +23,7 @@ export const login =
       };
 
       const { data } = await axios.post(
-        '/api/users/login',
+        'https://galaxy-int-backend.onrender.com/api/users/login',
         { email, password },
         config
       );
@@ -59,7 +59,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        '/api/users/register',
+        'https://galaxy-int-backend.onrender.com/api/users/register',
         { name, email, password },
         config
       );
@@ -101,7 +101,7 @@ export const updateProfile =
       };
 
       const { data }: AxiosResponse = await axios.put(
-        `/api/users/profile/${id}`,
+        `https://galaxy-int-backend.onrender.com/api/users/profile/${id}`,
         requestData,
         config
       );
@@ -135,7 +135,10 @@ export const getUserOrders =
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.get(`/api/users/${userInfo._id}`, config);
+      const { data } = await axios.get(
+        `https://galaxy-int-backend.onrender.com/api/users/${userInfo._id}`,
+        config
+      );
       dispatch(setUserOrders(data));
     } catch (error: any) {
       dispatch(

@@ -15,7 +15,7 @@ export const getProducts = (): AppThunk => async (dispatch: Dispatch) => {
   dispatch(setLoading(true));
   try {
     const { data }: AxiosResponse<Product[]> = await axios.get<Product[]>(
-      '/api/products'
+      'https://galaxy-int-backend.onrender.com/api/products'
     );
     dispatch(setProducts(data));
     dispatch(setLoading(false));
@@ -39,7 +39,7 @@ export const getProduct =
     dispatch(setLoading(true));
     try {
       const { data }: AxiosResponse<Product> = await axios.get<Product>(
-        `/api/products/${id}`
+        `https://galaxy-int-backend.onrender.com/api/products/${id}`
       );
       dispatch(setProduct(data));
     } catch (error: any) {
@@ -77,7 +77,7 @@ export const createProductReview =
         },
       };
       const { data }: AxiosResponse = await axios.post(
-        `/api/products/reviews/${productId}`,
+        `https://galaxy-int-backend.onrender.com/api/products/reviews/${productId}`,
         { comment, userId, rating, title },
         config
       );

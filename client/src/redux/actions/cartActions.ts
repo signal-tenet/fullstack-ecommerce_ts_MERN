@@ -16,7 +16,9 @@ export const addCartItem =
   async (dispatch: Dispatch) => {
     dispatch(setLoading(true));
     try {
-      const { data } = await axios.get(`/api/products/${id}`);
+      const { data } = await axios.get(
+        `https://galaxy-int-backend.onrender.com/api/products/${id}`
+      );
       const itemToAdd: CartItem = {
         id: data._id,
         name: data.name,

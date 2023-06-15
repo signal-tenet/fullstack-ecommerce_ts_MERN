@@ -1,4 +1,4 @@
-# Fullstack project - read carefully.
+# Fullstack project.
 
 ## Installation
 
