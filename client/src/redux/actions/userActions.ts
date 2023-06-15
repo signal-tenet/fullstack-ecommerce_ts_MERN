@@ -23,7 +23,7 @@ export const login =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/users/login',
+        '/api/users/login',
         { email, password },
         config
       );
@@ -59,7 +59,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/users/register',
+        '/api/users/register',
         { name, email, password },
         config
       );
@@ -101,7 +101,7 @@ export const updateProfile =
       };
 
       const { data }: AxiosResponse = await axios.put(
-        `http://localhost:4000/api/users/profile/${id}`,
+        `/api/users/profile/${id}`,
         requestData,
         config
       );
@@ -135,10 +135,7 @@ export const getUserOrders =
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.get(
-        `http://localhost:4000/api/users/${userInfo._id}`,
-        config
-      );
+      const { data } = await axios.get(`/api/users/${userInfo._id}`, config);
       dispatch(setUserOrders(data));
     } catch (error: any) {
       dispatch(

@@ -16,9 +16,7 @@ export const addCartItem =
   async (dispatch: Dispatch) => {
     dispatch(setLoading(true));
     try {
-      const { data } = await axios.get(
-        `http://localhost:4000/api/products/${id}`
-      );
+      const { data } = await axios.get(`/api/products/${id}`);
       const itemToAdd: CartItem = {
         id: data._id,
         name: data.name,

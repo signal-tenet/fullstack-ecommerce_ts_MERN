@@ -29,10 +29,7 @@ export const getAllUsers = (): AppThunk => async (dispatch, getState) => {
         'Content-Type': 'application/json',
       },
     };
-    const { data }: AxiosResponse<any> = await axios.get(
-      'http://localhost:4000/api/users',
-      config
-    );
+    const { data }: AxiosResponse<any> = await axios.get('/api/users', config);
     dispatch(getUsers(data));
   } catch (error: unknown) {
     const errorMessage = getErrorMessage(error);
@@ -54,7 +51,7 @@ export const deleteUser =
           'Content-Type': 'application/json',
         },
       };
-      await axios.delete(`http://localhost:4000/api/users/${id}`, config);
+      await axios.delete(`/api/users/${id}`, config);
       dispatch(userDelete());
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
@@ -93,7 +90,7 @@ export const getAllOrders =
         },
       };
       const { data }: AxiosResponse<any> = await axios.get(
-        'http://localhost:4000/api/orders',
+        '/api/orders',
         config
       );
       dispatch(getOrders(data));
@@ -122,7 +119,7 @@ export const deleteOrder =
           'Content-Type': 'application/json',
         },
       };
-      await axios.delete(`http://localhost:4000/api/orders/${id}`, config);
+      await axios.delete(`/api/orders/${id}`, config);
       dispatch(orderDelete());
     } catch (error: unknown) {
       dispatch(
@@ -150,7 +147,7 @@ export const setDelivered =
           'Content-Type': 'application/json',
         },
       };
-      await axios.put(`http://localhost:4000/api/orders/${id}`, {}, config);
+      await axios.put(`/api/orders/${id}`, {}, config);
       dispatch(setDeliveredFlag());
     } catch (error: unknown) {
       dispatch(
@@ -189,7 +186,7 @@ export const updateProduct =
         },
       };
       const { data }: AxiosResponse<any> = await axios.put(
-        `http://localhost:4000/api/products`,
+        `/api/products`,
         {
           brand,
           name,
@@ -232,7 +229,7 @@ export const deleteProduct =
         },
       };
       const { data }: AxiosResponse<any> = await axios.delete(
-        `http://localhost:4000/api/products/${id}`,
+        `/api/products/${id}`,
         config
       );
       dispatch(setProducts(data));
@@ -265,7 +262,7 @@ export const uploadProduct =
         },
       };
       const { data }: AxiosResponse<any> = await axios.post(
-        `http://localhost:4000/api/products`,
+        `/api/products`,
         newProduct,
         config
       );
@@ -297,7 +294,7 @@ export const removeReview =
         },
       };
       const { data }: AxiosResponse<any> = await axios.put(
-        `http://localhost:4000/api/products/${productId}/${reviewId}`,
+        `/api/products/${productId}/${reviewId}`,
         {},
         config
       );

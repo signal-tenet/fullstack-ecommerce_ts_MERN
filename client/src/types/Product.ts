@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
 export interface Review extends Document {
+  _id: string;
   name: string;
   rating: number;
   comment: string;
@@ -10,6 +11,7 @@ export interface Review extends Document {
 }
 
 export interface Product extends Document {
+  _id: string;
   name: string;
   image: string;
   brand: string;

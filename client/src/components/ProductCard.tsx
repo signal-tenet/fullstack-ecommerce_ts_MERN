@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const cartInfo = useSelector((state: RootState) => state.cart);
   const { cart } = cartInfo;
 
-  const addItem = (id: number) => {
+  const addItem = (id: any) => {
     if (cart.some((cartItem) => cartItem.id === id)) {
       toast({
         description:
