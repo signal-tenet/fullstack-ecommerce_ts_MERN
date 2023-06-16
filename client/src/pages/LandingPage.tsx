@@ -71,6 +71,16 @@ const LandingPage = () => (
               as={FaArrowRight}
             />
           </HStack>
+          <Stack direction='column' spacing='3'>
+            <Text fontSize='md' align={'center'} fontWeight='bold' as='mark'>
+              Warning! Wait up to 3 minutes till the products will load.
+            </Text>
+            <Text as='span' fontSize='xs'>
+              The initial load of the products takes up to 3 minutes. Don't try
+              to log in or register before products are loaded. This is caused
+              by the limitations of the free version of Render.com.
+            </Text>
+          </Stack>
         </Stack>
       </Box>
       <Flex flex='1' overflow='hidden'>
