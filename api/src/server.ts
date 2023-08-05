@@ -7,6 +7,7 @@ import logger from './util/logger'
 
 const mongoUrl = MONGODB_URI
 
+mongoose.set('strictQuery', true)
 mongoose
   .connect(mongoUrl)
   .then(() => {
